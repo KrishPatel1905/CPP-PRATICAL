@@ -41,10 +41,42 @@ public:
         }
     }
 
-    void Transper() {
+   
+        void Transper() {
+            int targetAcc, amount;
+            long int targetBalance;
+        
+            cout << "Enter your Account number: ";
+            cin >> aNum;
+            if (aNum == AccNum) {
+                cout << "Enter Target Account number: ";
+                cin >> targetAcc;
+        
+                if (targetAcc == AccNum) {
+                    cout << "You can't transfer to the same account!" << endl;
+                    return;
+                }
+        
+                cout << "Enter Amount to Transfer: ";
+                cin >> amount;
+        
+                if (amount > balance) {
+                    cout << "Insufficient balance to transfer!" << endl;
+                } else {
+                    balance -= amount;
+                    targetBalance = amount; 
+                    cout << "Transfer Successful!" << endl;
+                    cout << "Your Remaining Balance: " << balance << endl;
+                    cout << "Amount Received by Target Account: " << targetBalance << endl;
+                }
+            } else {
+                cout << "Invalid Account Number!" << endl;
+            }
+        }
+        
        
-    }
-};
+    };
+
 
 int main() {
     MoneySystem m;

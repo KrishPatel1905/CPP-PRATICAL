@@ -8,8 +8,12 @@ private:
     double bonus;
 
 public:
-    Employee(string empName, double empSalary, double empBonus = 5000.0)
-        : name(empName), basicSalary(empSalary), bonus(empBonus) {}
+  
+  Employee(string empName, double empSalary, double empBonus = 5000.0) {
+    name = empName;
+    basicSalary = empSalary;
+    bonus = empBonus;
+}
 
     inline double totalSalary() {
         return basicSalary + bonus;
