@@ -5,7 +5,7 @@ using namespace std;
 
 int calculateRatio(int loan, int income) {
     if (income == 0) {
-        throw runtime_error("Income cannot be zero.");
+        throw runtime_error    ("Income cannot be zero.");
     }
 
     return (loan * 100) / income;
