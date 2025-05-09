@@ -12,12 +12,12 @@ int main() {
     while (n--) {
         int id;
         cin >> id;
-        transactionIDs.insert(id); // Automatically ensures uniqueness and sorted order
+        transactionIDs.insert(id); 
     }
 
     cout << "Unique transaction IDs in sorted order: ";
     for (int id : transactionIDs) {
-        cout << id << " "; // Display unique IDs using iterators
+        cout << id << " "; 
     }
     cout << endl;
 

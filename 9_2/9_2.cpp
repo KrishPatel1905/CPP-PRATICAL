@@ -70,7 +70,6 @@ public:
 int main() {
     cout << "Welcome to the Banking System!\n";
 
-    // Create a bank account
     string name;
     double initialBalance;
     cout << "Enter account holder's name: ";
@@ -80,7 +79,6 @@ int main() {
 
     BankAccount account(name, initialBalance);
 
-    // Menu-driven interface
     int choice;
     do {
         cout << "\nMenu:\n";
