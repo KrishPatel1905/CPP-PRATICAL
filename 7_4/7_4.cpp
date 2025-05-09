@@ -44,7 +44,7 @@ return true;
 int main() {
 Student students[100];
 int studentCount = 0;
-string filename = "marks.txt";
+string filename = "student.txt";
 
 if (!readFileAndProcessData(filename, students, studentCount)) {
 return 1;
