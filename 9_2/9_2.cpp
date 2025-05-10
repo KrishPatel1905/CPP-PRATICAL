@@ -1,123 +1,137 @@
 #include <iostream>
-#include <vector>
 #include <string>
 using namespace std;
 
-// Class to represent a bank account
+const int MAX = 100;
+
 class BankAccount {
-private:
-    string accountHolderName;
-    double balance;
-    vector<string> transactionHistory; // To maintain a history of transactions
-
-    // Function to log transactions
-    void logTransaction(const string& transaction) {
-        transactionHistory.push_back(transaction);
-    }
-
 public:
-    // Constructor to initialize account details
-    BankAccount(const string& name, double initialBalance) : accountHolderName(name), balance(initialBalance) {
-        if (initialBalance < 0) {
-            logTransaction("Error: Initial balance cannot be negative.");
-            balance = 0;
-        }
-        logTransaction("Account created with balance: " + to_string(balance));
+    string name;
+    float balance;
+    string transactionType[MAX];
+    float transactionAmount[MAX];
+    int txnCount;
+
+    
+    BankAccount() {
+        name = "";
+        balance = 0;
+        txnCount = 0;
     }
 
-    // Method to deposit funds
-    void deposit(double amount) {
+    void createAccount(string userName, float initialAmount) {
+        name = userName;
+        balance = initialAmount;
+        cout << "Account created for " << name << " with $" << balance << " balance.\n";
+    }
+
+    void deposit(float amount) {
         if (amount <= 0) {
-            logTransaction("Error: Attempted to deposit a non-positive amount: " + to_string(amount));
-            cout << "Invalid deposit amount. Please enter a positive value.\n";
-            return;
+            throw string("Deposit must be positive!");  
         }
         balance += amount;
-        logTransaction("Deposited: " + to_string(amount) + ", New Balance: " + to_string(balance));
+        transactionType[txnCount] = "Deposit";
+        transactionAmount[txnCount] = amount;
+        txnCount++;
+        cout << "Deposited $" << amount << ". New balance: $" << balance << "\n";
     }
 
-    // Method to withdraw funds
-    void withdraw(double amount) {
+    void withdraw(float amount) {
         if (amount <= 0) {
-            logTransaction("Error: Attempted to withdraw a non-positive amount: " + to_string(amount));
-            cout << "Invalid withdrawal amount. Please enter a positive value.\n";
-            return;
+            throw string("Withdrawal must be positive!");
         }
         if (amount > balance) {
-            logTransaction("Error: Insufficient funds for withdrawal of: " + to_string(amount));
-            cout << "Insufficient funds. Withdrawal denied.\n";
-            return;
+            throw string("Insufficient funds!");
         }
         balance -= amount;
-        logTransaction("Withdrew: " + to_string(amount) + ", New Balance: " + to_string(balance));
+        transactionType[txnCount] = "Withdraw";
+        transactionAmount[txnCount] = amount;
+        txnCount++;
+        cout << "Withdrew $" << amount << ". Remaining balance: $" << balance << "\n";
     }
 
-    // Method to display account details
-    void displayAccountDetails() const {
-        cout << "Account Holder: " << accountHolderName << endl;
-        cout << "Current Balance: " << balance << endl;
+    void checkBalance() {
+        cout << "Current Balance: $" << balance << "\n";
     }
 
-    // Method to display transaction history
-    void displayTransactionHistory() const {
-        cout << "Transaction History:\n";
-        for (const string& transaction : transactionHistory) {
-            cout << transaction << endl;
+    void showHistory() {
+        if (txnCount == 0) {
+            cout << "No transactions made.\n";
+            return;
+        }
+        cout << "\nTransaction History:\n";
+        for (int i = 0; i < txnCount; i++) {
+            cout << i + 1 << ". " << transactionType[i] << ": $" << transactionAmount[i] << "\n";
         }
     }
 };
 
+
+
+void showError(string function, string error) {
+    cout << "[ERROR] in " << function << ": " << error << "\n";
+}
+
 int main() {
-    cout << "Welcome to the Banking System!\n";
-
-    string name;
-    double initialBalance;
-    cout << "Enter account holder's name: ";
-    getline(cin, name);
-    cout << "Enter initial balance: ";
-    cin >> initialBalance;
-
-    BankAccount account(name, initialBalance);
-
+    BankAccount acc;
+    string userName;
+    float initialAmount;
     int choice;
-    do {
-        cout << "\nMenu:\n";
-        cout << "1. Deposit Funds\n";
-        cout << "2. Withdraw Funds\n";
-        cout << "3. Display Account Details\n";
-        cout << "4. Display Transaction History\n";
-        cout << "5. Exit\n";
-        cout << "Enter your choice: ";
-        cin >> choice;
+    float amount;
 
-        switch (choice) {
-            case 1: {
-                double amount;
-                cout << "Enter amount to deposit: ";
-                cin >> amount;
-                account.deposit(amount);
-                break;
+    cout << "Enter your name: ";
+    cin >> userName;
+    cout << "Enter initial deposit: ";
+    cin >> initialAmount;
+    acc.createAccount(userName, initialAmount);
+
+menu:
+    cout << "\n--- Bank Menu ---\n";
+    cout << "1. Deposit\n";
+    cout << "2. Withdraw\n";
+    cout << "3. Check Balance\n";
+    cout << "4. Show Transaction History\n";
+    cout << "5. Exit\n";
+    cout << "Enter your choice: ";
+    cin >> choice;
+
+    switch (choice) {
+        case 1:
+            cout << "Enter amount to deposit: ";
+            cin >> amount;
+            try {
+                acc.deposit(amount);
+            } catch (string msg) {
+                showError("deposit", msg);
             }
-            case 2: {
-                double amount;
-                cout << "Enter amount to withdraw: ";
-                cin >> amount;
-                account.withdraw(amount);
-                break;
+            goto menu;
+
+        case 2:
+            cout << "Enter amount to withdraw: ";
+            cin >> amount;
+            try {
+                acc.withdraw(amount);
+            } catch (string msg) {
+                showError("withdraw", msg);
             }
-            case 3:
-                account.displayAccountDetails();
-                break;
-            case 4:
-                account.displayTransactionHistory();
-                break;
-            case 5:
-                cout << "Thank you for using the Banking System. Goodbye!\n";
-                break;
-            default:
-                cout << "Invalid choice. Please try again.\n";
-        }
-    } while (choice != 5);
+            goto menu;
+
+        case 3:
+            acc.checkBalance();
+            goto menu;
+
+        case 4:
+            acc.showHistory();
+            goto menu;
+
+        case 5:
+            cout << "Thank you for using our banking system!\n";
+            break;
+
+        default:
+            cout << "Invalid choice! Try again.\n";
+            goto menu;
+    }
 
     return 0;
 }
