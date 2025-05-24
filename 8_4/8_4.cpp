@@ -8,7 +8,7 @@ int main() {
     for (int i=0;i<n;++i) {
          string name; int score
          ; cin>>name>>score; 
-         v.emplace_back(score,name);
+         v.push_back(score,name);
         
         }
     sort(v.rbegin(), v.rend());

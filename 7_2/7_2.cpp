@@ -12,7 +12,7 @@ int main() {
     ifstream file(filename);
 
     if (!file.is_open()) {
-        cout << "PLEASE ENTER THE  VAILD OUTPUT '" << filename << "'" << endl;
+        cout << "PLEASE ENTER THE VALID OUTPUT '" << filename << "'" << endl;
         return 1;
     }
 
@@ -23,21 +23,21 @@ int main() {
 
     while (getline(file, line)) {
         lineCount++;
-        charCount += line.length() + 1; 
+        charCount += line.length() + 1; // +1 for newline character
 
-        bool inWord = false;
-        for (char ch : line) {
+        int inWord = 0;
+        for (int i = 0; line[i] != '\0'; i++) {
+            char ch = line[i];
             if (ch == ' ' || ch == '\t') {
-                inWord = false;
+                inWord = 0;
             } else {
-                if (!inWord) {
+                if (inWord == 0) {
                     wordCount++;
-                    inWord = true;
+                    inWord = 1;
                 }
             }
         }
     }
-       
 
     cout << "Lines: " << lineCount << endl;
     cout << "Words: " << wordCount << endl;

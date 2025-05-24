@@ -8,7 +8,7 @@ int main() {
     map<string,int> freq;
     stringstream ss(line);
     string w;
-    while (ss >> w) freq[w]++;
-    for (auto &p : freq) cout << p.first << ": " << p.second << endl;
+    while (ss >> w){ freq[w]++;}
+    for (auto p : freq) cout << p.first << ": " << p.second << endl;
     return 0;
 }

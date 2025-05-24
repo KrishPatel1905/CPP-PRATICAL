@@ -1,3 +1,2 @@
-sugar 1 150
-
-milk 2 50
+PRODUCT QUANTITY PRICE 
+milk 2 34
