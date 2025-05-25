@@ -1,20 +1,23 @@
-#include <iostream>
-#include <vector>
-#include <algorithm>
+#include<iostream>
 using namespace std;
-int main() {
-    int n; cin >> n;
-    vector<pair<int,string>> v;
-    for (int i=0;i<n;++i) {
-         string name; int score
-         ; cin>>name>>score; 
-         v.push_back(score,name);
-        
+int main()
+{
+    float loanamount,income,ratio;
+    cin>>loanamount;
+    cin>>income;
+    try{
+        if(loanamount>income)
+        {
+            throw "Sorry Your Income is nit sufficiat";
         }
-    sort(v.rbegin(), v.rend());
-    cout<<"-----------------------------------------------"<<endl;
-    for (auto &p : v)
-    { cout << p.second << " " << p.first << endl;
+        else{
+            ratio=loanamount / income;
+            cout<<"Your loan ratio :"<<ratio;
+        }
     }
-        return 0;
+    catch(const char *msg)
+    {
+        cout<<"!!ERROR :!!"<<msg;
+    }
+    return 0;
 }
